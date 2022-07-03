@@ -1,8 +1,8 @@
 {
     "folders":{
-        "01":{"type":"body-deco"},
+        "01":{"type":"deco-body"},
         "02":{"type":"body-type"},
-        "03":{"type":"hair-deco"},
+        "03":{"type":"deco-hair"},
         "04":{"type":"hair-front"},
         "05":{"type":"eyes-color"},
         "06":{"type":"eyes-shape"},
@@ -10,11 +10,11 @@
         "08":{"type":"hair-back"},
         "09":{"type":"clothes"},
         "10":{"type":"body-type"},
-        "11":{"type":"body-deco"},
+        "11":{"type":"deco-body"},
         "12":{"type":"hair-back"},
         "13":{"type":"hair-front"},
         "14":{"type":"hair-extension"},
-        "15":{"type":"hair-deco"},
+        "15":{"type":"deco-hair"},
         "16":{"type":"bg-color"}
     }
 }
