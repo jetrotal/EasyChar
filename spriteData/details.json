@@ -1,0 +1,20 @@
+{
+    "folders":{
+        "01":{"type":"body-deco"},
+        "02":{"type":"body-type"},
+        "03":{"type":"hair-deco"},
+        "04":{"type":"hair-front"},
+        "05":{"type":"eyes-color"},
+        "06":{"type":"eyes-shape"},
+        "07":{"type":"hair-extension"},
+        "08":{"type":"hair-back"},
+        "09":{"type":"clothes"},
+        "10":{"type":"body-type"},
+        "11":{"type":"body-deco"},
+        "12":{"type":"hair-back"},
+        "13":{"type":"hair-front"},
+        "14":{"type":"hair-extension"},
+        "15":{"type":"hair-deco"},
+        "16":{"type":"bg-color"}
+    }
+}
