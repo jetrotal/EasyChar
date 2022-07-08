@@ -1,20 +1,21 @@
 {
     "folders":{
         "01":{"type":"xtra-body"},
-        "02":{"type":"body-type"},
+        "02":{"type":"head"},
         "03":{"type":"xtra-head"},
         "04":{"type":"hair-front"},
         "05":{"type":"eyes-pupil"},
         "06":{"type":"eyes-shape"},
         "07":{"type":"hair-xtra"},
         "08":{"type":"hair-back"},
-        "09":{"type":"clothes"},
-        "10":{"type":"body-type"},
-        "11":{"type":"xtra-body"},
-        "12":{"type":"hair-back"},
-        "13":{"type":"hair-front"},
-        "14":{"type":"hair-xtra"},
-        "15":{"type":"xtra-head"},
-        "16":{"type":"bg-color"}
+		"09":{"type":"head"},
+        "10":{"type":"clothes"},
+        "11":{"type":"body-type"},
+        "12":{"type":"xtra-body"},
+        "13":{"type":"hair-back"},
+        "14":{"type":"hair-front"},
+        "15":{"type":"hair-xtra"},
+        "16":{"type":"xtra-head"},
+        "17":{"type":"bg-color"}
     }
 }
