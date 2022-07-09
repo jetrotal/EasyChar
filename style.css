@@ -143,7 +143,7 @@ a {
   width: 72px;
   height: 128px;
   overflow: hidden;
-  transform: scale(3);
+  transform: scale(2);
   transform-origin: center;
   image-rendering: pixelated;
    box-shadow: 0 0 0 .5px  var(--c-green03);
@@ -245,19 +245,14 @@ background-color:green !important;
 #assetsMenu {
 }
 
-*[class^="hair"].overlay {
-opacity:1;
-filter: contrast(0) sepia(100%) saturate(100000%) 
-hue-rotate(0) saturate(100%) brightness(200%)
-contrast(100%);
+.overlay {
+opacity:.8;
 mix-blend-mode: overlay;
   
 }
 
-*[class^="hair"].top {
-   filter: contrast(0) sepia(100%) saturate(100000%) 
-hue-rotate(0) saturate(100%) brightness(200%) contrast(100%);
-  opacity:.3!important;
+.top {
+  opacity:.4!important;
 }
 
 
