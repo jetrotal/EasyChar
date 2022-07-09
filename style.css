@@ -1,0 +1,301 @@
+:root {
+  --bgImg: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 2'%3E%3Cpath d='M1 2V0h1v1H0v1z' fill-opacity='.05'/%3E%3C/svg%3E");
+  --c-black01: #000000;
+  --c-black02: #020302;
+
+  --c-gray01: #181818;
+  --c-gray02: #242529;
+  --c-gray03: #292b2f;
+  --c-gray04: #2c2c30;
+  --c-gray05: #36373a;
+
+  --c-green01: #315526;
+  --c-green02: #3c8025;
+  --c-green03: #87b169;
+  --c-green04: #c2cdbb;
+
+  --c-red01: #9a2720;
+  --c-red02: #ff3c41;
+
+  --c-orange01: #ff5b32;
+
+  --c-yellow01: #fcd000;
+
+  --c-white01: #ffffff;
+}
+@font-face {
+  font-family: koubit001;
+  src: url(https://jetrotal.github.io/testing-stuff/koubit001.woff2);
+}
+
+.spacer {
+  margin: auto !important;
+  position: relative;
+}
+
+.logoText,
+.logoEditor,
+.logoRTP,
+.logoChar,
+.logoPlayer {
+  text-shadow: 1px 1px #000c;
+  font-family: koubit001;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 500;
+  height: 2.5rem;
+  line-height: 1rem;
+}
+
+.logoText:before,
+body {
+  color: var(--c-green04);
+}
+
+.logoText:before {
+  content: "EASY";
+}
+.logoText:after {
+  color: var(--c-green03);
+  content: "RPG";
+}
+
+.logoRTP:before {
+  color: var(--c-yellow01);
+  content: "OPEN";
+  margin-right: 0.2rem;
+}
+.logoRTP:after {
+  color: var(--c-white01);
+  content: "RTP";
+}
+
+.logoChar:before {
+  color: var(--c-yellow01);
+  content: "Easy";
+  margin-right: 0.2rem;
+}
+.logoChar:after {
+  color: var(--c-white01);
+  content: "Char";
+}
+
+.logoEditor:before,
+.logoPlayer:before {
+  content: " ";
+  font-size: 1rem;
+}
+.logoEditor:after {
+  content: "EDITOR";
+  color: var(--c-white01);
+}
+
+.logoPlayer:after {
+  content: "PLAYER";
+  color: var(--c-white01);
+}
+
+body {
+  background-color: var(--c-gray03) !important;
+  background-image: var(--bgImg);
+  background-size: 32px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+
+a {
+  color: var(--c-white01);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#header{
+  
+  
+}
+
+#mainArea .layout {
+    padding: 30px 15px;
+    display: flex;
+    background-color: var(--c-gray02);
+    align-items: center;
+    border-radius: 10px;
+    min-width: 550px;
+    box-shadow: 0 0 0 1px var(--c-gray01);
+}
+
+#mainArea {
+  display: flex;
+  align-items: center;
+  argin: auto;
+  height: 100vh;
+}
+
+#charContainer {
+  background-color:#209C00;
+      margin: 0 100px;
+  width: 72px;
+  height: 128px;
+  overflow: hidden;
+  transform: scale(3);
+  transform-origin: center;
+  image-rendering: pixelated;
+   box-shadow: 0 0 0 .5px  var(--c-green03);
+}
+
+#disclaimer {
+  margin: 0 50px;
+  width: 300px;
+}
+
+#charOutput * {
+position:absolute;
+  top:0;
+  left:0;
+}
+
+/* ------------------- */
+
+.spriteSel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spriteSel input[type="number"]::-webkit-inner-spin-button,
+.spriteSel input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.spriteSel input[type="color"]:hover{
+transform:translateX(10px) scalex(1.5);
+}
+
+.spriteSel input[type="color"]{
+  z-index:99999;
+  width:30px;
+  height:30px;
+  pointer-events: all;
+}
+
+.spriteSel * {
+  border: none;
+  color: var(--c-white02);
+}
+
+.spriteSel .title,
+.spriteSel button,
+.spriteSel input {
+  items-align: center;
+  align-items: center;
+  background: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.2em;
+  text-align: center;
+}
+
+.spriteSel .title {
+  margin: auto 2px;
+  pointer-events: all !important;
+  width: auto;
+  padding: 0;
+}
+
+.spriteSel button,
+.spriteSel input {
+  width: 30px;
+}
+
+.spriteSel input {
+  border-left: none;
+  border-right: none;
+  font-size: 1.2rem;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.spriteSel .btn {
+  cursor: pointer;
+  font-size: 10px;
+  margin: auto;
+  line-height: 2;
+}
+
+.spriteSel .btn:hover {
+background-color:green !important;
+}
+
+.spriteSel label {
+  min-width:80px;
+  text-align:left !important;
+  margin:auto 5px !important;
+}
+
+.spriteSel * {
+  background-color: transparent !important;
+}
+
+#assetsMenu {
+}
+
+*[class^="hair"].overlay {
+opacity:1;
+filter: contrast(0) sepia(100%) saturate(100000%) 
+hue-rotate(0) saturate(100%) brightness(200%)
+contrast(100%);
+mix-blend-mode: overlay;
+  
+}
+
+*[class^="hair"].top {
+   filter: contrast(0) sepia(100%) saturate(100000%) 
+hue-rotate(0) saturate(100%) brightness(200%) contrast(100%);
+  opacity:.3!important;
+}
+
+
+.switch {
+    display: inline-block;
+    height: 1rem;
+    position: relative;
+    min-width: 40px !important;
+}
+
+.switch input {
+display:none;
+}
+
+.slider,.slider:before {
+    position: absolute;
+}
+
+.slider {
+    background-color: #2196f3 !important;
+    border-radius: 34px;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    right: 0;
+    top: 0
+}
+
+.slider:before {
+    background-color: #fff;
+      border-radius: 100%;
+    content: "";
+    height: 1rem;
+    width: 1rem;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px)
+}
