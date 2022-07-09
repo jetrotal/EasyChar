@@ -40,7 +40,7 @@ var spriteHTML= function(){
     id="layer_${id}"
     class="${spriteData.json.folders[id].type} ${overclass}";
     src="${spriteData.url}spriteData/${id}/${size}1.gif"
-    onerror="this.style.display='none'" 
+    onerror="this.src='${spriteData.url}spriteData/${id}/${size}0.gif'" 
     onload="this.style.display='absolute'"></img>
     `
                           };
@@ -80,7 +80,7 @@ for(var i = 0, len = spriteData.menuItems.length; i < len; ++i) {
   <input class="spriteSel" id="qtd" min="0" value=1 type="number">
   <button class="btn" id="add" onclick="${updFunc}">▶</button>
 
-  <input id="colorCheck" class="title" onclick="${updFunc}" type="checkbox"${id.includes("hair") || id.includes("pupil")  ?'checked':''}>
+  <input id="colorCheck" class="title" onclick="getColor(this,this.parentNode.id)" type="checkbox"${id.includes("hair") || id.includes("pupil")  ?'checked':''}>
 
 <input type="color" id="color" value="${id.includes("hair")  ? '#ff0000' : '#250000'}" oninput="this.parentNode.querySelector('#colorCheck').checked=1, getColor(this,this.parentNode.id)">
 
@@ -109,11 +109,31 @@ function updateSprite(mode, target, setVal=1) {
 
 
 function getColor(input,output) {
-var colorA = 'contrast(0) sepia(100%) saturate(100000%)'
-console.log ( output, document.querySelector(`.${output}.overlay`) )
-    let color = HexToHSL(input.value)
+console.log(input.id,input.checked)
+
+createCSSSelector(`.${output}.overlay,.${output}.top,.xxx`,'display:'+['none !important','visible !important'][+document.getElementById(output).querySelector("#colorCheck").checked]);
+
+if (input.id === "colorCheck") return 
+
+  var colPrefix = 'contrast(0) sepia(100%) saturate(100000%)'  
+  let obj = function(a){
+  return document.querySelector(`.${output}.${a}`);
+  };
+  
+  if(!document.getElementById(output).querySelector('#colorCheck').checked)
+createCSSSelector(`.${output}.overlay,.${output}.top`,'display:none !important');
+  else createCSSSelector(`.${output}.overlay,.${output}.top`,'display:visible !important');
+ 
+    let color = HexToHSL(input.value);
+
+  var colorFilter = obj('overlay').getAttribute('style').split('filter')[0]+`; filter: ${colPrefix}
+hue-rotate(${color.h}deg) saturate(${color.s}%) brightness(${color.l*2}%)
+contrast(100%) !important;`
+
+createCSSSelector(`.${output}.overlay,.${output}.top`,colorFilter);
+// obj('overlay').setAttribute('style',colorFilter)
+// obj('top').setAttribute('style',colorFilter)
     
-    console.log('hsl(' + color.h + ', ' + color.s + '%, ' + color.l + '%)')
 }
 
 function HexToHSL(hex) {
@@ -148,4 +168,69 @@ function HexToHSL(hex) {
     h = Math.round(360*h);
 
     return {h, s, l};
+}
+
+function createCSSSelector (selector, style) {
+  if (!document.styleSheets) return;
+  if (document.getElementsByTagName('head').length == 0) return;
+
+  var styleSheet,mediaType;
+
+  if (document.styleSheets.length > 0) {
+    for (var i = 0, l = document.styleSheets.length; i < l; i++) {
+      if (document.styleSheets[i].disabled) 
+        continue;
+      var media = document.styleSheets[i].media;
+      mediaType = typeof media;
+
+      if (mediaType === 'string') {
+        if (media === '' || (media.indexOf('screen') !== -1)) {
+          styleSheet = document.styleSheets[i];
+        }
+      }
+      else if (mediaType=='object') {
+        if (media.mediaText === '' || (media.mediaText.indexOf('screen') !== -1)) {
+          styleSheet = document.styleSheets[i];
+        }
+      }
+
+      if (typeof styleSheet !== 'undefined') 
+        break;
+    }
+  }
+
+  if (typeof styleSheet === 'undefined') {
+    var styleSheetElement = document.createElement('style');
+    styleSheetElement.type = 'text/css';
+    document.getElementsByTagName('head')[0].appendChild(styleSheetElement);
+
+    for (i = 0; i < document.styleSheets.length; i++) {
+      if (document.styleSheets[i].disabled) {
+        continue;
+      }
+      styleSheet = document.styleSheets[i];
+    }
+
+    mediaType = typeof styleSheet.media;
+  }
+
+  if (mediaType === 'string') {
+    for (var i = 0, l = styleSheet.rules.length; i < l; i++) {
+      if(styleSheet.rules[i].selectorText && styleSheet.rules[i].selectorText.toLowerCase()==selector.toLowerCase()) {
+        styleSheet.rules[i].style.cssText = style;
+        return;
+      }
+    }
+    styleSheet.addRule(selector,style);
+  }
+  else if (mediaType === 'object') {
+    var styleSheetLength = (styleSheet.cssRules) ? styleSheet.cssRules.length : 0;
+    for (var i = 0; i < styleSheetLength; i++) {
+      if (styleSheet.cssRules[i].selectorText && styleSheet.cssRules[i].selectorText.toLowerCase() == selector.toLowerCase()) {
+        styleSheet.cssRules[i].style.cssText = style;
+        return;
+      }
+    }
+    styleSheet.insertRule(selector + '{' + style + '}', styleSheetLength);
+  }
 }
