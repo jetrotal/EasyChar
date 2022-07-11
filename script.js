@@ -122,7 +122,8 @@ updateAll();"
 id="show">
   <input type="checkbox" id="resizer" ${charData.size.current =='child'? 'checked':''}>
   <span  class="slider round"></span>
-</label> child </div>`:''}
+</label> child </div>
+<div class="spacer"></div>`:''}
   `
   }  
 updateAll();
