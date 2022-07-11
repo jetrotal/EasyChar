@@ -261,6 +261,8 @@ background-color:#000c;
   font-size: 10px;
   margin: auto;
   line-height: 2;
+  height: 30px;
+  fill: white;
 }
 
 
@@ -336,6 +338,7 @@ input:checked + .slider:before {
      height: 50px;
 }
 #exporter .btn, #info .btn {
+fill: white;
   font-size:1.5rem;
        background-color: var(--c-gray01);
     width: -webkit-fill-available;
@@ -347,6 +350,7 @@ input:checked + .slider:before {
 }
 
 #info .btn {
+
   font-size:1rem;
   background-color:var(--c-green02)
 }
