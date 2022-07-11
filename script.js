@@ -33,8 +33,8 @@ var charData = {
 
 if (document.location.href == charData.url){
   charData.jsonFile = charData.jsonFile +"?" + seed;
-  charData.ext = charData.ext +"?" + seed
-};
+ // charData.ext = charData.ext +"?" + seed
+}
 
 var stage = new createjs.Stage("charOutput");
 
