@@ -349,10 +349,12 @@ input:checked + .slider:before {
 }
 
 #downloader {
-  background-color:var(--c-green01) !important;
+  background-color:var(--c-green02) !important;
 }
 
-
-.btn:hover, #downloader:hover {
+#downloader:hover{
+    background-color: var(--c-green03) !important;
+}
+.btn:hover{
   background-color: var(--c-green02) !important;
 }
