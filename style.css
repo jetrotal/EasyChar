@@ -352,7 +352,7 @@ input:checked + .slider:before {
   background-color:var(--c-green02) !important;
 }
 
-#downloader:hover{
+#info .btn:hover,#downloader:hover{
     background-color: var(--c-green03) !important;
 }
 .btn:hover{
