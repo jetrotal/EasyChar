@@ -18,7 +18,7 @@ var charData = {
     types:['adult','child'], 
     current:"adult", 
     old:"child", 
-    changesFolder:["body-type", "clothes","bg-color"]
+    changesFolder:["body-type","body-fix", "clothes","bg-color"]
   },
   yOffset:{
     adult:0,
@@ -27,7 +27,7 @@ var charData = {
   },
   menuItems:[],
   layers:{}
-}
+};
 
 
 var stage = new createjs.Stage("charOutput");
@@ -91,14 +91,15 @@ var assetsMenu = document.getElementById('assetsMenu');
 assetsMenu.innerHTML='Setup <div class="spacer"></div>';
 
 for(var i = 0, len = charData.menuItems.length; i < len; ++i) {
-
+  
   var id = charData.menuItems[i];
   var updFunc = "updateSprite(this.id,this.parentNode.id)"
   var setFunc = "updateSprite(this.id,this.parentNode.parentNode.id)"
-  
+ 
+
   assetsMenu.innerHTML+=
   `
-<div class="spriteSel" id="${id}">
+<div class="spriteSel" id="${id}" ${id == 'body-fix' ? "style='display:none'":''}>
 <input type="checkbox" onclick="${updFunc}" id="show" class="title" ${id.includes("xtra") || id.includes("clothes") ? "" : 'checked'}>
 
   <label class="title"> ${id} </label><div class="spacer"></div>
@@ -147,6 +148,12 @@ function checkNewBody(body = [1, 2, 3]) {
 }
 
 async function updateSprite(mode, target, setVal) {
+
+  document.getElementById('body-fix').querySelector("#colorCheck").checked = 
+         document.getElementById('body-type').querySelector("#colorCheck").checked;
+         document.getElementById('body-fix').querySelector("#color").value = 
+         document.getElementById('body-type').querySelector("#color").value
+
   var visible = document.getElementById(target).querySelector("#show").checked;
   var recolorVisible = document.getElementById(target).querySelector("#colorCheck").checked;
 
@@ -176,11 +183,18 @@ for (var n in charData.layers) {
    
   charData.layers[n].bmp2.y = charData.layers[n].bmp.y = 
     (charData.size.current=="adult") ?
-    (charData.layers[n].img.getAttribute('class') =="clothes" && document.getElementById('body-type').querySelector("#qtd").value <= 3) ? 
+    (charData.layers[n].img.getAttribute('class') =="clothes" && document.getElementById('body-type').querySelector("#qtd").value <= 2) ? 
     charData.layers[n].bmp.y = charData.yOffset.adultNew :  charData.yOffset.adult : 
-  charData.layers[n].childOffset;
-    
+  charData.layers[n].childOffset; 
 }
+
+ if (charData.layers[n].img.getAttribute('class') =="body-fix"){
+       
+    document.getElementById('body-type').querySelector("#qtd").value == 1 &&
+      document.getElementById('clothes').querySelector("#show").checked == 1
+      ? (charData.layers[n].bmp.alpha = 1) 
+:charData.layers[n].bmp.alpha = charData.layers[n].bmp2.alpha = 0;
+    }
   
 if (charData.layers[n].img.getAttribute("class") == target) {
 
