@@ -11,12 +11,13 @@
 		"09":{"type":"head"},
 		"10":{"type":"body-type"},
         "11":{"type":"clothes"},
-        "12":{"type":"body-type"},
-        "13":{"type":"xtra-body"},
-        "14":{"type":"hair-back"},
-        "15":{"type":"hair-front"},
-        "16":{"type":"hair-xtra"},
-        "17":{"type":"xtra-head"},
-        "18":{"type":"bg-color"}
+        "12":{"type":"body-fix"},
+		"13":{"type":"body-type"},
+        "14":{"type":"xtra-body"},
+        "15":{"type":"hair-back"},
+        "16":{"type":"hair-front"},
+        "17":{"type":"hair-xtra"},
+        "18":{"type":"xtra-head"},
+        "19":{"type":"bg-color"}
     }
 }
