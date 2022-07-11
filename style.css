@@ -337,9 +337,11 @@ input:checked + .slider:before {
   display: flex;
      height: 50px;
 }
+#exporter .btn{
+  width:50px
+}
 #exporter .btn, #info .btn {
 fill: white;
-  font-size:1.5rem;
        background-color: var(--c-gray01);
     width: -webkit-fill-available;
     /* height: inherit; */

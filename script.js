@@ -9,7 +9,7 @@ var getQuery = function (a,b) {
   return  document.getElementById(a).querySelector(b)
 }
 
-var seed = Math.floor(Math.random() * 10) + 1;
+var seed = Math.floor(Math.random() * 1000) + 1;
 
 var charData = {
   url:"https://jetrotal.github.io/EasyChar/",
@@ -31,6 +31,8 @@ var charData = {
   layers:{}
 };
 
+if (document.location.href == charData.url)
+charData.jsonFile = charData.jsonFile +"?" + seed;
 
 var stage = new createjs.Stage("charOutput");
 
