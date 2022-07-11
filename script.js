@@ -117,7 +117,7 @@ for(var i = 0, len = charData.menuItems.length; i < len; ++i) {
   
   <input id="colorCheck" class="title" onclick="${updFunc}" type="checkbox"${id.includes("hair") || id.includes("pupil")  ?'checked':''}>
   
-  <input type="color" id='color' value="${id.includes("hair")  ? '#888ff8' : '#250000'}" oninput="this.parentNode.querySelector('#colorCheck').checked=1, ${updFunc}">
+  <input type="color" id='color' value="${id.includes("hair")  ? '#888ff8' : id.includes("pupil")  ? '#000055':'#553737'}" oninput="this.parentNode.querySelector('#colorCheck').checked=1, ${updFunc}">
 `
 +//<a><img id="loader" src="" onerror="${setFunc}.then(this.parentNode.innerHTML='')"></img></a>
 `</div>
