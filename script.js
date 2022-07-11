@@ -5,7 +5,9 @@ Number.prototype.pad = function(n) {
   return Array(n).join("0").slice(-1 * (n || 2)) + this;
 };
 
-
+var getQuery = function (a,b) {
+  return  document.getElementById(a).querySelector(b)
+}
 
 var seed = Math.floor(Math.random() * 10) + 1;
 
@@ -142,24 +144,20 @@ await sleep(10)
 
 function checkNewBody(body = [1, 2, 3]) {
   for (var i = 0; i < body.length; i++) 
-    if ("" + body[i] == document.getElementById("body-type").querySelector("#qtd").value) 
+    if ("" + body[i] ==getQuery("body-type","#qtd").value) 
       return 1;  
   return 0;
 }
 
+var forceUpdate = 0;
+
 async function updateSprite(mode, target, setVal) {
-
-  document.getElementById('body-fix').querySelector("#colorCheck").checked = 
-         document.getElementById('body-type').querySelector("#colorCheck").checked;
-         document.getElementById('body-fix').querySelector("#color").value = 
-         document.getElementById('body-type').querySelector("#color").value
-
-  var visible = document.getElementById(target).querySelector("#show").checked;
-  var recolorVisible = document.getElementById(target).querySelector("#colorCheck").checked;
+  var visible =getQuery(target,"#show").checked;
+  var recolorVisible = getQuery(target,"#colorCheck").checked;
 
   var sizeRegex = new RegExp(charData.size.types.join("|"), 'gi');
 
-  var el = document.getElementById(target).querySelector("#qtd"); 
+  var el = getQuery(target,"#qtd"); 
   var val = el ? parseInt(el.value):1;
 !setVal ?  setVal = val:'';
 
@@ -183,17 +181,36 @@ for (var n in charData.layers) {
    
   charData.layers[n].bmp2.y = charData.layers[n].bmp.y = 
     (charData.size.current=="adult") ?
-    (charData.layers[n].img.getAttribute('class') =="clothes" && document.getElementById('body-type').querySelector("#qtd").value <= 2) ? 
+    (charData.layers[n].img.getAttribute('class') =="clothes" && 
+getQuery('body-type',"#qtd").value <= 2) ? 
     charData.layers[n].bmp.y = charData.yOffset.adultNew :  charData.yOffset.adult : 
   charData.layers[n].childOffset; 
 }
 
+
+
  if (charData.layers[n].img.getAttribute('class') =="body-fix"){
-       
-    document.getElementById('body-type').querySelector("#qtd").value == 1 &&
-      document.getElementById('clothes').querySelector("#show").checked == 1
+
+if ( (getQuery('body-fix','#colorCheck').checked 
+  !== getQuery('body-type','#colorCheck').checked)
+|| (getQuery('body-fix','#color').value 
+  !== getQuery('body-type','#color').value) )
+      { 
+        
+ getQuery('body-fix','#colorCheck').checked =
+ getQuery('body-type','#colorCheck').checked;
+
+getQuery('body-fix','#color').value =
+ getQuery('body-type','#color').value
+updateSprite('loader','body-fix');
+}
+
+    getQuery('body-type',"#qtd").value == 1 &&
+      getQuery('clothes',"#show").checked == 1
       ? (charData.layers[n].bmp.alpha = 1) 
 :charData.layers[n].bmp.alpha = charData.layers[n].bmp2.alpha = 0;
+
+if (forceUpdate ==1) forceUpdate = 0, updateAll();
     }
   
 if (charData.layers[n].img.getAttribute("class") == target) {
