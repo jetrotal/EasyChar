@@ -1,151 +1,286 @@
+Array.prototype.move = function(from, to) {
+    this.splice(to, 0, this.splice(from, 1)[0]);
+};
 Number.prototype.pad = function(n) {
   return Array(n).join("0").slice(-1 * (n || 2)) + this;
 };
 
-var spriteData = {
-url:"https://jetrotal.github.io/EasyChar/", 
-size:"adult", 
-usesSize:["body-type", "clothes"], 
-childOffsef:2, //if(size == "child") translates-Y 2px
-menuItems:[]
-};
 
-fetch(spriteData.url + "spriteData/details.json").then(res => res.json()).then(out => {
-  spriteData.json = out;
-  start();
-}).catch(err => console.log('error', JSON.stringify(err)));
 
-function start() {
-  document.getElementById("charOutput").innerHTML = "";
+var seed = Math.floor(Math.random() * 10) + 1;
 
-  spriteData.length = Object.keys(spriteData.json.folders).length;
+var charData = {
+  url:"https://jetrotal.github.io/EasyChar/",
+  assetsFolder:"spriteData/",
+  jsonFile:"details.json",
+  ext:".gif",
+  size:{
+    types:['adult','child'], 
+    current:"adult", 
+    old:"child", 
+    changesFolder:["body-type", "clothes","bg-color"]
+  },
+  yOffset:{
+    adult:0,
+    child:2,
+    adultNew:-2
+  },
+  menuItems:[],
+  layers:{}
+}
 
-  for (let i = 1; i < spriteData.length; i++) {
+
+var stage = new createjs.Stage("charOutput");
+
+
+fetch(charData.url + charData.assetsFolder + charData.jsonFile).then(res => res.json()).then(out => {
+  charData.json = out;
+  buildStage();
+}).catch(err => console.log('error', err));
+
+async function buildStage() {
+  charData.length = Object.keys(charData.json.folders).length;
+  for (let i = charData.length; 1 <= i; i--) {
     var id = i;
     10 > id && (id = id.pad(2));
 
-    -1 === spriteData.menuItems.indexOf(spriteData.json.folders[id].type) && spriteData.menuItems.push(spriteData.json.folders[id].type);
+    charData.menuItems.indexOf(charData.json.folders[id].type) === -1 &&
+      charData.menuItems.push(charData.json.folders[id].type);
 
-    var size = spriteData.usesSize.includes(spriteData.json.folders[id].type) ? spriteData.size + "/" : "", yOffset = "child" !== spriteData.size || spriteData.usesSize.includes(spriteData.json.folders[id].type) ? 0 : spriteData.childOffsef + "px";
-
-var overclass=""
-
-var spriteHTML= function(){
-  return `
-  <img
-    style="
-    transform:translateY(${yOffset});
-    z-index:${spriteData.length - i}
-    "
-    id="layer_${id}"
-    class="${spriteData.json.folders[id].type} ${overclass}";
-    src="${spriteData.url}spriteData/${id}/${size}1.gif"
-    onerror="this.style.display='none'" 
-    onload="this.style.display='absolute'"></img>
-    `
-                          };
-
+    var sizeFolder = charData.size.changesFolder.includes(charData.json.folders[id].type) &&
+        charData.json.folders[id].type !== "bg-color"?
+        charData.size.current + "/" : ""; 
     
-    document.getElementById("charOutput").innerHTML += spriteHTML();
+    charData.layers[id] = {};
+    charData.layers[id].img = document.createElement("img");
+    charData.layers[id].img.crossOrigin = "Anonymous";
+    charData.layers[id].img.className = charData.json.folders[id].type;
 
-    var overclass="overlay";
-    document.getElementById("charOutput").innerHTML += spriteHTML();
+if(charData.layers[id].img.className == "bg-color") charData.layers[id].childOffset = 0
+    else charData.layers[id].childOffset = 
+        charData.size.changesFolder.includes(charData.json.folders[id].type) ? 
+        0 : charData.yOffset.child;
     
-    var overclass="top";
-    document.getElementById("charOutput").innerHTML += spriteHTML();
+   
+
+    charData.layers[id].bmp = new createjs.Bitmap(charData.layers[id].img);
+    charData.layers[id].bmp2 = new createjs.Bitmap(charData.layers[id].img);
+
+    charData.layers[id].bmp.y = charData.layers[id].bmp2.y = 0;
+
+    var matrix = new createjs.ColorMatrix().adjustSaturation(0);
+    charData.layers[id].bmp.filters = [new createjs.ColorMatrixFilter( matrix )];
+    charData.layers[id].bmp2.filters = [new createjs.ColorFilter(0,0,0,1, 0,0,0,0)];
+    charData.layers[id].bmp2 .compositeOperation = "overlay";
+    
+    stage.addChild(charData.layers[id].bmp, charData.layers[id].bmp2);	
+
+    charData.layers[id].img.src = `${charData.url+charData.assetsFolder}${id}/${sizeFolder}1`+charData.ext;
     
   }
 
+  charData.menuItems.sort((a, b) => a.localeCompare(b));
+  charData.menuItems.move(charData.menuItems.indexOf('head'), 0 );
+  charData.menuItems.move(charData.menuItems.indexOf('bg-color'), charData.menuItems.length );
 
-
-
-spriteData.menuItems.sort((a, b) => a.localeCompare(b))
-  generateMenu();
+  buildMenu();
 }
 
-function generateMenu(){
-  spriteData.menuItems
-for(var i = 0, len = spriteData.menuItems.length; i < len; ++i) {
-      
+function buildMenu(){
+var assetsMenu = document.getElementById('assetsMenu');
+assetsMenu.innerHTML='Setup <div class="spacer"></div>';
 
-  var id = spriteData.menuItems[i];
+for(var i = 0, len = charData.menuItems.length; i < len; ++i) {
+
+  var id = charData.menuItems[i];
   var updFunc = "updateSprite(this.id,this.parentNode.id)"
+  var setFunc = "updateSprite(this.id,this.parentNode.parentNode.id)"
   
-  document.getElementById('assetsMenu').innerHTML+=
+  assetsMenu.innerHTML+=
   `
 <div class="spriteSel" id="${id}">
-<input type="checkbox" id="show" onclick="${updFunc}" id="dummy" class="title" ${id.includes("xtra") || id.includes("clothes") ? "" : 'checked'}>
-  <label class="title"> ${id}: </label>
-  <button class="btn" onclick="${updFunc}" id="sub">\◀</button>
-  <input class="spriteSel" id="qtd" min="0" value=1 type="number">
-  <button class="btn" id="add" onclick="${updFunc}">▶</button>
+<input type="checkbox" onclick="${updFunc}" id="show" class="title" ${id.includes("xtra") || id.includes("clothes") ? "" : 'checked'}>
 
+  <label class="title"> ${id} </label><div class="spacer"></div>
+
+  <button class="btn" onclick="${updFunc}" id="sub">\⯇</button>
+  <input class="spriteSel" id="qtd" min="0" value=1 type="text">
+  <button class="btn" id="add" onclick="${updFunc}">⯈ </button><div class="spacer"></div>
+  
   <input id="colorCheck" class="title" onclick="${updFunc}" type="checkbox"${id.includes("hair") || id.includes("pupil")  ?'checked':''}>
+  
+  <input type="color" id='color' value="${id.includes("hair")  ? '#888ff8' : '#250000'}" oninput="this.parentNode.querySelector('#colorCheck').checked=1, ${updFunc}">
+`
++//<a><img id="loader" src="" onerror="${setFunc}.then(this.parentNode.innerHTML='')"></img></a>
+`</div>
 
-<input type="color" id="color" value="${id.includes("hair")  ? '#ff0000' : '#250000'}" oninput="this.parentNode.querySelector('#colorCheck').checked=1, getColor(this,this.parentNode.id)">
-
-  <img src="" onerror="${updFunc}"></img>
-</div>
+${!(charData.menuItems.length > i+1) ? `
+<div class="spacer"></div>
+<div class="spriteSel" id="changeSize">adult<label class="switch" onclick="
+charData.size.current = charData.size.types[+document.getElementById('resizer').checked];
+updateAll();" 
+id="show">
+  <input type="checkbox" id="resizer" ${charData.size.current =='child'? 'checked':''}>
+  <span  class="slider round"></span>
+</label> child </div>`:''}
   `
   }  
-
+updateAll();
 };
 
-function updateSprite(mode, target, setVal=1) {
-  var el = document.getElementById(target).querySelector("#qtd"); 
-  val = parseInt(el.value);
-
-  "set" == mode ? el.value = setVal : 
-  "add" == mode ? el.value = val + 1 : 
-  "sub" == mode && (el.value = val - 1);
+async function updateAll(mode='loader',value){
+  for(var i = 0, len = charData.menuItems.length; i < len; ++i) {
+await sleep(10)
+    var id = charData.menuItems[i];
   
-  
-  mode = document.getElementById(target).querySelector("#show").checked;
-  target = document.getElementsByClassName(target);
-  
-  for (val = 0; val < target.length; val++) target[val].src = target[val].src.split("/").slice(0, -1).join("/") + "/" + el.value * mode + ".gif";
-  
-}
-
-
-function getColor(input,output) {
-var colorA = 'contrast(0) sepia(100%) saturate(100000%)'
-console.log ( output, document.querySelector(`.${output}.overlay`) )
-    let color = HexToHSL(input.value)
+    await updateSprite(mode, id, value);
     
-    console.log('hsl(' + color.h + ', ' + color.s + '%, ' + color.l + '%)')
+  }
 }
 
-function HexToHSL(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+function checkNewBody(body = [1, 2, 3]) {
+  for (var i = 0; i < body.length; i++) 
+    if ("" + body[i] == document.getElementById("body-type").querySelector("#qtd").value) 
+      return 1;  
+  return 0;
+}
 
-    var r = parseInt(result[1], 16);
-    var g = parseInt(result[2], 16);
-    var b = parseInt(result[3], 16);
+async function updateSprite(mode, target, setVal) {
+  var visible = document.getElementById(target).querySelector("#show").checked;
+  var recolorVisible = document.getElementById(target).querySelector("#colorCheck").checked;
 
-    r /= 255, g /= 255, b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
+  var sizeRegex = new RegExp(charData.size.types.join("|"), 'gi');
 
-    if(max == min){
-        h = s = 0; // achromatic
-    } else {
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        
-        h /= 6;
-    }
+  var el = document.getElementById(target).querySelector("#qtd"); 
+  var val = el ? parseInt(el.value):1;
+!setVal ?  setVal = val:'';
 
-    s = s*100;
-    s = Math.round(s);
-    l = l*100;
-    l = Math.round(l);
-    h = Math.round(360*h);
+  mode == "set" ? el.value = setVal : 
+  mode == "add" ? el.value = val + 1 : 
+  mode == "sub" && (el.value = val - 1);
+  
+  if(el.value < 1 ) el.value =1;
+  
+  if (!visible) el.parentNode.style.color='var(--c-gray05)';
+  else el.parentNode.style.color='var(--c-green04)';
+ 
+var successCounter = 0;
 
-    return {h, s, l};
+for (var n in charData.layers) {
+
+  // charData.layers[n].img.src 
+  var url = charData.layers[n].img.src.replace(sizeRegex, charData.size.current);
+  
+  if (charData.layers[n].img.getAttribute('class') !=="bg-color"){
+   
+  charData.layers[n].bmp2.y = charData.layers[n].bmp.y = 
+    (charData.size.current=="adult") ?
+    (charData.layers[n].img.getAttribute('class') =="clothes" && document.getElementById('body-type').querySelector("#qtd").value <= 3) ? 
+    charData.layers[n].bmp.y = charData.yOffset.adultNew :  charData.yOffset.adult : 
+  charData.layers[n].childOffset;
+    
+}
+  
+if (charData.layers[n].img.getAttribute("class") == target) {
+
+  charData.layers[n].bmp.alpha = visible;
+  charData.layers[n].bmp2.alpha = recolorVisible * visible;
+  
+  
+  url = url.split("/").slice(0, -1).join("/") + "/" + el.value + charData.ext;
+  
+  var img = new Image();
+  img.src = url;
+  img.n = n;
+  img.target = target;
+  img.blankUrl = charData.layers[n].img.src.split("/").slice(0, -1).join("/") + "/0"+charData.ext;
+  
+  img.addEventListener("load", event => {
+    displayUpdate(event.target.n, event.target.src, event.target.target);
+  });
+  img.addEventListener("error", event => {
+    displayUpdate(event.target.n, event.target.blankUrl, event.target.target);
+  });
+}
+
+}
+console.log("bicho",successCounter)
+}
+
+async function displayUpdate(n,url,target){
+  charData.layers[n].img.src = url;
+  await recolor(n, document.getElementById(target));
+} 
+
+async function recolor(id, colorInput) {
+  var colors = await printColor(colorInput.querySelector("#color"));
+  var colorMode = +colorInput.querySelector("#colorCheck").checked;
+
+
+  var img = charData.layers[id].img;
+  var imgClass = img.getAttribute('class');
+  
+  var bmp = charData.layers[id].bmp;
+  var bmp2 = charData.layers[id].bmp2;
+  
+  try {
+ var matrix = new createjs.ColorMatrix();
+
+    if (imgClass.includes('hair'))
+      matrix.adjustSaturation(-80 * colorMode).adjustContrast(-25 * colorMode);
+    else if (imgClass.includes('head') || imgClass.includes('body'))
+      matrix.adjustSaturation(-50 * colorMode).adjustContrast(-50 * colorMode);
+    else
+      matrix.adjustSaturation(-25 * colorMode).adjustContrast(-10 * colorMode);
+
+       bmp.filters[0].matrix = matrix;
+    [bmp2.filters[0].redOffset,
+     bmp2.filters[0].greenOffset,
+     bmp2.filters[0].blueOffset] = colors;
+
+    await sleep(20);
+    
+   
+     bmp.cache(0, 0, img.width, img.height); //*/
+    
+    bmp2.cache(0, 0, img.width, img.height); 
+    
+    await stage.update();
+    
+  } catch (e) {console.log('fail',e)
+    await sleep(200), await recolor(id, colorInput);
+  }
+}
+ 
+async function printColor(ev) {
+  const color = ev.value
+  const r = parseInt(color.substr(1,2), 16)
+  const g = parseInt(color.substr(3,2), 16)
+  const b = parseInt(color.substr(5,2), 16)
+  return [r,g,b]
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+
+//createjs.Ticker.on("tick", tick);
+//function tick() { console.log("TICK!!!"); }
+
+
+
+function downloadChar(){
+
+  var ctx = stage.canvas.getContext('2d');
+  
+  var dta = ctx.getImageData(0,0,72,128).data;  // ctx is Context2D of a 
+  var  bb = UPNG.encode([dta], 72, 128);
+  const url = URL.createObjectURL(new Blob([bb], { type: 'image/png' }));
+  
+  var link = document.createElement("a"); // Or maybe get it from the crrent document
+
+  link.href = url;
+  link.download = "EasyChar_"+new Date().getTime()+'.png';
+  link.click();
 }
