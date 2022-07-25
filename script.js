@@ -210,7 +210,7 @@ getQuery('body-fix','#color').value =
 updateSprite('loader','body-fix');
 }
 
-    getQuery('body-type',"#qtd").value == 1 &&
+    (charData.size.current=='adult' && getQuery('body-type',"#qtd").value == 1) &&
       getQuery('clothes',"#show").checked == 1
       ? (charData.layers[n].bmp.alpha = 1) 
 :charData.layers[n].bmp.alpha = charData.layers[n].bmp2.alpha = 0;
