@@ -10,6 +10,9 @@ var getQuery = function (a,b) {
 }
 
 var seed = Math.floor(Math.random() * 1000) + 1;
+var successCounter = {}
+var lastSprite = {}
+
 
 var charData = {
   url:"https://jetrotal.github.io/EasyChar/",
@@ -111,7 +114,7 @@ for(var i = 0, len = charData.menuItems.length; i < len; ++i) {
   <label class="title"> ${id} </label><div class="spacer"></div>
 
   <button class="btn" onclick="${updFunc}" id="sub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14,7L9,12L14,17V7Z"/></svg></button> 
-  <input class="spriteSel" id="qtd" min="0" value=1 type="text" oninput="${updFunc},this.select()" onfocus="this.select()">
+  <input class="spriteSel" id="qtd" min="1" value=1 type="number" oninput="${updFunc}" onclick="this.select()">
   <button class="btn" id="add" onclick="${updFunc}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,17L15,12L10,7V17Z"/></svg></button>${/*⯈*/''}
   <div class="spacer"></div>
   
@@ -170,12 +173,13 @@ async function updateSprite(mode, target, setVal) {
   mode == "add" ? el.value = val + 1 : 
   mode == "sub" && (el.value = val - 1);
   
-  if(el.value < 1 ) el.value =1;
+  successCounter[target] = 0;
+  el.value = !!el.value && Math.abs(el.value) >= 1 ? Math.abs(el.value) : null
   
   if (!visible) el.parentNode.style.color='var(--c-gray05)';
   else el.parentNode.style.color='var(--c-green04)';
  
-var successCounter = 0;
+
 
 for (var n in charData.layers) {
 
@@ -234,14 +238,24 @@ if (charData.layers[n].img.getAttribute("class") == target) {
   
   img.addEventListener("load", event => {
     displayUpdate(event.target.n, event.target.src, event.target.target);
+    successCounter[target]++;
+    lastSprite[target] = el.value;
   });
   img.addEventListener("error", event => {
     displayUpdate(event.target.n, event.target.blankUrl, event.target.target);
+    console.log(  lastSprite[target] );
+    checkSuccess(target, el.value);
   });
 }
 
 }
-console.log("bicho",successCounter)
+
+}
+
+function checkSuccess(target, val){
+  if (successCounter[target] == 0 ){
+  updateSprite("set", target, lastSprite[target])
+  }
 }
 
 async function displayUpdate(n,url,target){
