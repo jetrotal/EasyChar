@@ -20,7 +20,7 @@ var charData = {
     types:['adult','child'], 
     current:"adult", 
     old:"child", 
-    changesFolder:["body-type","body-fix", "clothes","bg-color"]
+    changesFolder:["body-type","body-fix", "clothes","clothesB","bg-color"]
   },
   yOffset:{
     adult:0,
