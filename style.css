@@ -227,7 +227,6 @@ background-color:#000c;
 .spriteSel .title,
 .spriteSel button,
 .spriteSel input {
-  items-align: center;
   align-items: center;
   background: #fff;
   font-size: 1rem;
@@ -252,7 +251,7 @@ background-color:#000c;
   border-left: none;
   border-right: none;
   font-size: 1.2rem;
-  pointer-events: none;
+  /* pointer-events: none; */
   cursor: pointer;
 }
 
