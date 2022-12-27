@@ -188,7 +188,7 @@ for (var n in charData.layers) {
     (charData.size.current=="adult") ?
     (( charData.layers[n].img.getAttribute('class') =="clothes" || charData.layers[n].img.getAttribute('class') =="clothesB" ) && 
 getQuery('body-type',"#qtd").value <= 2) ? 
-    charData.layers[n].bmp.y = charData.yOffset.adultNew :  charData.yOffset.adult : 
+    charData.layers[n].bmp.y = (charData.layers[n].img.getAttribute('class') !=="clothes" ? charData.yOffset.adultNew: 1) :  charData.yOffset.adult : 
   charData.layers[n].childOffset; 
 }
 
