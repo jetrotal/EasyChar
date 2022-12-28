@@ -191,7 +191,7 @@ for (var n in charData.layers) {
   charData.layers[n].bmp2.y = charData.layers[n].bmp.y = 
     (charData.size.current!=="adult") ? charData.layers[n].childOffset :
     (( charData.layers[n].img.getAttribute('class') =="clothes" || charData.layers[n].img.getAttribute('class') =="clothes-b" ) && 
-getQuery('body-type',"#qtd").value <= 2 || getQuery('body-type',"#qtd").value == 9) ? 
+getQuery('body-type',"#qtd").value <= 2) ? 
     charData.layers[n].bmp.y = (charData.layers[n].img.getAttribute('class') !=="clothes" ? charData.yOffset.adultNew : document.getElementById("body-type").querySelector(".spriteSel").value == 2 ? -1 : charData.yOffset.adultNew) :  charData.yOffset.adult 
   
 }
