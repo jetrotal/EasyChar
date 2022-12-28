@@ -378,3 +378,12 @@ fill: white;
 .btn:hover{
   background-color: var(--c-green02) !important;
 }
+
+.pls{
+  position: absolute;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+}
