@@ -20,6 +20,92 @@ let successCounter = {};
 let lastSprite = {};
 let forceUpdate = 0;
 
+let params = {};
+params.default = {
+  "head": {
+      "show": true,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "body-fix": {
+      "show": true,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "body-type": {
+      "show": true,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "clothes": {
+      "show": false,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "clothes-b": {
+      "show": false,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "eyes-pupil": {
+      "show": true,
+      "qtd": "1",
+      "colorCheck": true,
+      "color": "#000055"
+  },
+  "eyes-shape": {
+      "show": true,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "hair-back": {
+      "show": true,
+      "qtd": "1",
+      "colorCheck": true,
+      "color": "#888ff8"
+  },
+  "hair-front": {
+      "show": true,
+      "qtd": "1",
+      "colorCheck": true,
+      "color": "#888ff8"
+  },
+  "hair-xtra": {
+      "show": false,
+      "qtd": "1",
+      "colorCheck": true,
+      "color": "#888ff8"
+  },
+  "xtra-body": {
+      "show": false,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "xtra-head": {
+      "show": false,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "bg-color": {
+      "show": true,
+      "qtd": "1",
+      "colorCheck": false,
+      "color": "#553737"
+  },
+  "changeSize":{
+    resizer: false
+  }
+};
+
+
 let charData = {
   url: "https://jetrotal.github.io/EasyChar/",
   assetsFolder: "spriteData/",
@@ -109,44 +195,45 @@ function buildMenu() {
   var updFunc = "updateSprite(this.id,this.parentNode.id)";
 
   charData.menuItems.forEach((id, i) => {
+    const itemParams = params.default[id];
     assetsMenu.innerHTML +=
       `
-      <div class="spriteSel" id="${id}" ${id == 'body-fix' ? "style='display:none'" : ''}>
-        <input type="checkbox" onclick="${updFunc}" id="show" class="title" ${id.includes("xtra") || id.includes("clothes") ? "" : 'checked'}>
-        <label class="title"> ${id} </label><div class="spacer"></div>
-        <button class="btn" onclick="${updFunc}" id="sub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14,7L9,12L14,17V7Z"/></svg></button> 
-        <input class="spriteSel" id="qtd" min="1" value=1 type="number" oninput="${updFunc}" onclick="this.select()">
-        <button class="btn" id="add" onclick="${updFunc}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,17L15,12L10,7V17Z"/></svg></button>
+        <div class="spriteSel" id="${id}" ${id !== 'body-fix'? '' : "style='display:none'"}>
+          <input type="checkbox" onclick="${updFunc}" id="show" class="title" ${itemParams.show ? 'checked' : ''}>
+          <label class="title"> ${id} </label><div class="spacer"></div>
+          <button class="btn" onclick="${updFunc}" id="sub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14,7L9,12L14,17V7Z"/></svg></button> 
+          <input class="spriteSel" id="qtd" min="1" value=${itemParams.qtd} type="number" oninput="${updFunc}" onclick="this.select()">
+          <button class="btn" id="add" onclick="${updFunc}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,17L15,12L10,7V17Z"/></svg></button>
+          <div class="spacer"></div>
+          <input id="colorCheck" class="title" onclick="${updFunc}" type="checkbox" ${itemParams.colorCheck ? 'checked' : ''}>
+          <input type="color" id='color' value="${itemParams.color}" oninput="this.parentNode.querySelector('#colorCheck').checked=1, ${updFunc}">
+        </div>
+        ${
+        !(charData.menuItems.length > i + 1)
+          ? `
         <div class="spacer"></div>
-        <input id="colorCheck" class="title" onclick="${updFunc}" type="checkbox"${id.includes("hair") || id.includes("pupil")  ? 'checked' : ''}>
-        <input type="color" id='color' value="${id.includes("hair") ? '#888ff8' : id.includes("pupil") ? '#000055' : '#553737'}" oninput="this.parentNode.querySelector('#colorCheck').checked=1, ${updFunc}">
-      </div>
-      ${
-      !(charData.menuItems.length > i + 1)
-        ? `
-      <div class="spacer"></div>
-      <div class="spriteSel" id="changeSize">
-        adult
-        <label class="switch" onclick="
-          charData.size.current = charData.size.types[+document.getElementById('resizer').checked];
-          updateAll();" 
-          id="show">
-            <input type="checkbox" id="resizer" ${charData.size.current == 'child' ? 'checked' : ''}>
-            <span  class="slider round"></span>
-          </label> 
-          child 
-      </div>
-      <div class="spacer"></div>`
-        : ''
-      }
-      `;
+        <div class="spriteSel" id="changeSize">
+          adult
+          <label class="switch" onclick="
+            charData.size.current = charData.size.types[+document.getElementById('resizer').checked];
+            updateAll();" 
+            id="show">
+              <input type="checkbox" id="resizer" ${params.default.changeSize.resizer ? '' : 'checked'}>
+              <span  class="slider round"></span>
+            </label> 
+            child 
+        </div>
+        <div class="spacer"></div>`
+          : ''
+        }
+        `;
   });
   updateAll();
 }
 
 async function updateAll(mode = 'loader', value) {
 	for (var i = 0, len = charData.menuItems.length; i < len; ++i) {
-		//await sleep(10)
+		await sleep(10)
 		var id = charData.menuItems[i];
 
 		await updateSprite(mode, id, value);
@@ -157,25 +244,36 @@ async function updateAll(mode = 'loader', value) {
 //forceUpdate
 
 async function updateSprite(mode, target, setVal) {
-	var visible = getQuery(target, "#show").checked;
-	var recolorVisible = getQuery(target, "#colorCheck").checked;
+  const visible = getQuery(target, '#show').checked;
+  const colorVisible = getQuery(target, '#colorCheck').checked;
+  const sizeRegex = new RegExp(charData.size.types.join('|'), 'gi');
+  const el = getQuery(target, '#qtd');
+  let val = el ? parseInt(el.value, 10) : 1;
 
-	var sizeRegex = new RegExp(charData.size.types.join("|"), 'gi');
+  if (!setVal) {
+    setVal = val;
+  }
 
-	var el = getQuery(target, "#qtd");
-	var val = el ? parseInt(el.value) : 1;
-	!setVal ? setVal = val : '';
+  switch (mode) {
+    case 'set':
+      el.value = setVal;
+      break;
+    case 'add':
+      el.value = val + 1;
+      break;
+    case 'sub':
+      el.value = val - 1;
+      break;
+    default:
+      // do nothing
+      break;
+  }
 
-	mode == "set" ? el.value = setVal :
-		mode == "add" ? el.value = val + 1 :
-		mode == "sub" && (el.value = val - 1);
+  successCounter[target] = 0;
+  el.value = el.value && Math.abs(el.value) >= 1 ? Math.abs(el.value) : null;
 
-	successCounter[target] = 0;
-	el.value = !!el.value && Math.abs(el.value) >= 1 ? Math.abs(el.value) : null
-
-	if (!visible) el.parentNode.style.color = 'var(--c-gray05)';
-	else el.parentNode.style.color = 'var(--c-green04)';
-
+  if (!visible) el.parentNode.style.color = 'var(--c-gray05)';
+  else el.parentNode.style.color = 'var(--c-green04)';
 
 
 	for (var n in charData.layers) {
@@ -221,6 +319,7 @@ async function updateSprite(mode, target, setVal) {
 		if (charData.layers[n].img.getAttribute("class") == target) {
 
 			charData.layers[n].bmp.alpha = visible;
+      var recolorVisible = getQuery(target, "#colorCheck").checked;
 			charData.layers[n].bmp2.alpha = recolorVisible * visible;
 
 
@@ -330,3 +429,80 @@ function downloadChar() {
 	link.download = "EasyChar_" + new Date().getTime() + '.png';
 	link.click();
 }
+
+function getParams(id) {
+  const element = document.getElementById(id);
+
+  if (id === "changeSize") {
+    const checkbox = element.querySelector("input[type='checkbox']");
+    return { resizer: checkbox.checked };
+  } else {
+    const inputs = element.querySelectorAll("input");
+    return {
+      show: inputs[0].checked,
+      qtd: inputs[1].value,
+      colorCheck: inputs[2].checked,
+      color: inputs[3].value
+    };
+  }
+}
+
+function setParams(id, params) {
+  const element = document.getElementById(id);
+
+  if (id === "changeSize") {
+    const checkbox = element.querySelector("input[type='checkbox']");
+    checkbox.checked = params.resizer;
+  } else {
+    const inputs = element.querySelectorAll("input");
+    inputs[0].checked = params.show;
+    inputs[1].value = params.qtd;
+    inputs[2].checked = params.colorCheck;
+    inputs[3].value = params.color;
+  }
+}
+
+
+//--------- Dynamic Load Files
+
+function obj2arr(obj,name) {
+  let arr = [name];
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+        var temp = +obj[key]
+        if (isNaN(temp)) temp = obj[key]
+      arr.push(temp);
+    }
+  }
+  return arr;
+}
+
+function arr2obj(arr) {
+  let obj = {};
+  let currentIndex = 0;
+    obj[arr[0]] = {
+      "show": arr[currentIndex + 1],
+      "qtd": arr[currentIndex + 2],
+      "colorCheck": arr[currentIndex + 3],
+      "color": arr[currentIndex + 4]
+    };
+
+  return obj;
+}
+
+obj2arr(params.default.head,"head")
+//arr2obj(obj2arr(params.default.head,"head"))
+
+params.url = []
+
+async function buildUrl() {
+  charData.length = Object.keys(charData.json.folders).length;
+  for (let i = charData.length; 1 <= i; i--) {
+    const id = i.toString().padStart(2, '0');
+    const type = charData.json.folders[id].type;
+      params.url.push(obj2arr(params.default[type],type))
+  }
+}
+
+buildUrl();
+params.url
