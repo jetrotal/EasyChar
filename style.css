@@ -266,6 +266,8 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
+    color:rgb(0,117,255);
     border-bottom: dotted 1px;
     padding: 0;
     font-size: initial;
