@@ -172,7 +172,7 @@ small {
 #mainArea {
     display: flex;
     align-items: center;
-    argin: auto;
+    margin: auto;
     height: 100vh;
 }
 
@@ -192,9 +192,6 @@ small {
     margin: 0 35px;
     width: 300px;
 }
-
-#charOutput {}
-
 
 /* ------------------- */
 

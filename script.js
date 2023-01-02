@@ -218,7 +218,7 @@ function buildMenu() {
             charData.size.current = charData.size.types[+document.getElementById('resizer').checked];
             updateAll();" 
             id="show">
-              <input type="checkbox" id="resizer" ${params.default.changeSize.resizer ? '' : 'checked'}>
+              <input type="checkbox" id="resizer" ${params.default.changeSize.resizer ? 'checked' : ''}>
               <span  class="slider round"></span>
             </label> 
             child 
