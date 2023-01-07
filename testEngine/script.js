@@ -12,7 +12,7 @@ async function processLayers(layers) {
                     await processLayers(layer.children());
                     break;
                 default:
-                   ""// buildImg(layer);
+                   buildImg(layer);
             }
         } catch (e) {
             console.log(layer.name);
