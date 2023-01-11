@@ -1,13 +1,164 @@
-let dummi = `data:image/png;base64,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`
+const seed = Math.floor(Math.random() * 1000) + 1;
+let PSD = require("psd"),
+    psdFile = `https://jetrotal.github.io/EasyChar/spriteData.psd?${seed}`;
 
-let PSD = require("psd");
-let assetsByHierarchy = new Map(),
-    char = {},
-    debug = 1,
-    psdFile = "https://jetrotal.github.io/EasyChar/spriteData.psd?8273";
-//lay;
+let charData = {
+    listOfTypes: {},
+    foldersLength: {},
+    assetsMap: new Map(),
+    menuItems: [],
+    layers: {},   
+    yModifier: 0
+},
+    char = {};
+    
+let params = {};
+params.default = {
+    head: {
+        show: true,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    "body-fix": {
+        show: true,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    "body-type": {
+        show: true,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    "clothes": {
+        show: false,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    "clothes-b": {
+        show: false,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    "eyes-pupil": {
+        show: true,
+        ind: "1",
+        colorCheck: true,
+        color: "#000055"
+    },
+    "eyes-shape": {
+        show: true,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    "hair-back": {
+        show: true,
+        ind: "1",
+        colorCheck: true,
+        color: "#888ff8"
+    },
+    "hair-front": {
+        show: true,
+        ind: "1",
+        colorCheck: true,
+        color: "#888ff8"
+    },
+    "hair-xtra": {
+        show: false,
+        ind: "1",
+        colorCheck: true,
+        color: "#888ff8"
+    },
+    "xtra-body": {
+        show: false,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    "xtra-head": {
+        show: false,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    "bg-color": {
+        show: true,
+        ind: "1",
+        colorCheck: false,
+        color: "#532D2D"
+    },
+    changeSize: {
+        resizer: false
+    }
+};
+
+const stage = new createjs.Stage("charOutput");
+
+const helperFunctions = (() => {
+    Array.prototype.move = function(from, to) {
+        this.splice(to, 0, this.splice(from, 1)[0]);
+    };
+    Number.prototype.pad = function(n) {
+        return (
+            Array(n)
+                .join("0")
+                .slice(-1 * (n || 2)) + this
+        );
+    };
+
+    window.sleep = function(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    };
+
+    window.getQuery = function(a, b) {
+        return document.getElementById(a).querySelector(b);
+    };
+    
+    window.recursiveAssign = function(target, source) {
+    for (const key of Object.keys(source)) {
+        if (source[key] instanceof Object && !Array.isArray(source[key])) {
+            if (!target[key]) Object.assign(target, { [key]: {} });
+            recursiveAssign(target[key], source[key]);
+        } else {
+            Object.assign(target, { [key]: source[key] });
+        }
+    }
+}
+})();
+
+async function preload() {
+    let psd = await PSD.fromURL(psdFile);
+    psd = psd.tree().children();
+    await processLayers(psd);
+    Object.assign(char, buildHierarchy(charData.assetsMap));
+    recursiveAssign(char, charData.listOfTypes);
+    PSD = null;
+    charData.assetsMap = null;
+    getFoldersLentgh();
+    buildStage();
+}
+preload();
+
 async function processLayers(layers) {
-    for (let layer of layers) {
+    for (let [index,layer] of layers.entries()) {
+        if (layer.name == "@rules") {
+            processRules(layer.children());
+            continue;
+        }
+
+        if (layer.parent.name == null) {
+            layer.type = layer.name;
+            layer.name = index;
+            char[layer.name] = { type: "" };
+            charData.listOfTypes[layer.name] = { type: "" };
+            charData.listOfTypes[layer.name].type = layer.type;
+        }
+
         try {
             switch (!0) {
                 case layer.hasChildren():
@@ -17,59 +168,379 @@ async function processLayers(layers) {
                     buildImg(layer);
             }
         } catch (e) {
-            console.log(layer.name);
+
         }
     }
 }
-async function main() {
-    var psd = await PSD.fromURL(psdFile);
-    //lay = psd;
-    psd = psd.tree().children();
-    await processLayers(psd);
-    char = breakHierarchy(assetsByHierarchy);
-    PSD = null;
+function processRules(layers) {
+    for (let layer of layers) {
+        window.aaa = layer.name;
+        window.rules = JSON.parse(layer.name);
+    }
 }
-main();
-
+function buildImg(layer) {
+    var imgElement = Object.assign(
+        {},
+        {
+            src: layer.toPng().src,
+            data: {
+                x: layer.left,
+                y: layer.top,
+                hierarchy: getParentHierarchy(layer)
+            }
+        }
+    );
+    //debug && document.body.appendChild(imgElement);
+    var hierarchy = getParentHierarchy(layer);
+    charData.assetsMap.has(hierarchy) || charData.assetsMap.set(hierarchy, []);
+    charData.assetsMap.get(hierarchy).push(imgElement);
+}
 function getParentHierarchy(layer) {
     let hierarchy = layer.name;
-    for (; layer.parent;) {
+    for (; layer.parent; ) {
         (layer = layer.parent),
-        (hierarchy = `${layer.name ? layer.name + "/" : ""}${hierarchy}`);
+            (hierarchy = `${layer.name ? layer.name + "/" : ""}${hierarchy}`);
     }
-    return hierarchy;
+    return hierarchy.split("/");
 }
-
-function breakHierarchy(assetsByHierarchy) {
+function buildHierarchy(assetsByHierarchy) {
     const brokenHierarchy = {};
     for (const [hierarchy, assets] of assetsByHierarchy) {
-        assetsByHierarchy = hierarchy.split("/");
+        assetsByHierarchy = hierarchy; //hierarchy.split("/");
         let currentObject = brokenHierarchy;
         for (let i = 0; i < assetsByHierarchy.length; i++) {
             currentObject[assetsByHierarchy[i]] ||
                 (currentObject[assetsByHierarchy[i]] = {}),
                 (currentObject = currentObject[assetsByHierarchy[i]]);
         }
-        currentObject.assets = assets;
+        assets[0].src
+            ? ((currentObject.src = assets[0].src),
+              (currentObject.data = assets[0].data))
+            : (currentObject[0] = assets[0]);
     }
     return brokenHierarchy;
 }
+function getFoldersLentgh() {
+    for (var n in char) {
+        if (char[n].child) {
+            if (!charData.foldersLength[char[n].type]) charData.foldersLength[char[n].type] = {};
+            if (!charData.foldersLength[char[n].type].child) charData.foldersLength[char[n].type].child = 0;
+            if (!charData.foldersLength[char[n].type].adult) charData.foldersLength[char[n].type].adult = 0;
 
-function charImg(folder, img, type) {
-    return type ?
-        char[folder][type][img].assets[0] :
-        char[folder][img].assets[0];
+            if (charData.foldersLength[char[n].type].child < Object.keys(char[n].child).length)
+                charData.foldersLength[char[n].type].child = Object.keys(char[n].child).length;
+
+            if (charData.foldersLength[char[n].type].adult < Object.keys(char[n].adult).length)
+                charData.foldersLength[char[n].type].adult = Object.keys(char[n].adult).length;
+        } else {
+            if (!charData.foldersLength[char[n].type]) charData.foldersLength[char[n].type] = 0;
+            if (charData.foldersLength[char[n].type] < Object.keys(char[n]).length - 1)
+                charData.foldersLength[char[n].type] = Object.keys(char[n]).length - 1;
+        }
+    }
 }
 
-function buildImg(layer) {
-    var imgElement = document.createElement("img");
-    lay = layer;
-    imgElement.src = dummi; //layer.toPng().src;
-    imgElement.setAttribute("data-x", layer.left);
-    imgElement.setAttribute("data-y", layer.top);
-    imgElement.setAttribute("data-hierarchy", getParentHierarchy(layer));
-    debug && document.body.appendChild(imgElement);
-    var hierarchy = getParentHierarchy(layer);
-    assetsByHierarchy.has(hierarchy) || assetsByHierarchy.set(hierarchy, []);
-    assetsByHierarchy.get(hierarchy).push(imgElement);
-};;;
+async function buildStage() {
+	for (let i = Object.keys(char).length; i >= 1; i--) {
+		if (!charData.menuItems.includes(char[i].type)) {
+			charData.menuItems.push(char[i].type);
+		}
+		charData.layers[i] = {};
+		const img = new Image();
+		img.className = char[i].type;
+		const bmp = new createjs.Bitmap(img);
+		const bmp2 = new createjs.Bitmap(img);
+
+		const matrix = new createjs.ColorMatrix().adjustSaturation(0);
+		bmp.filters = [new createjs.ColorMatrixFilter(matrix)];
+		bmp2.filters = [new createjs.ColorFilter(0, 0, 0, 1, 0, 0, 0, 0)];
+		bmp2.compositeOperation = "overlay";
+
+		charData.layers[i].bmp = bmp;
+		charData.layers[i].bmp2 = bmp2;
+
+		stage.addChild(bmp, bmp2);
+	}
+
+	reorderMenuItems();
+	buildMenu();
+}
+function reorderMenuItems(){
+    charData.menuItems.sort((a, b) => a.localeCompare(b));
+    charData.menuItems.move(charData.menuItems.indexOf("head"), 0);
+    charData.menuItems.move(
+        charData.menuItems.indexOf("bg-color"),
+        charData.menuItems.length
+    );
+}
+function buildMenu() {
+    const assetsMenu = document.getElementById("assetsMenu");
+    assetsMenu.innerHTML = 'Setup <div class="spacer"></div>';
+    const updFunc = "updateSprite(this.id,this.parentNode.id), updateAll()"
+
+    Object.keys(params.default).forEach((id, i) => {
+        if (!(Object.keys(params.default).length > i + 1)) return;
+
+        const itemParams = params.default[id];
+        const display = id === "body-fix" ? "style='display:none'" : "";
+        const checked = itemParams.show ? "checked" : "";
+        const colorChecked = itemParams.colorCheck ? "checked" : "";
+        const resizerChecked = params.default.changeSize.resizer ? "checked" : "";
+
+        assetsMenu.innerHTML += `
+        <div class="spriteSel" id="${id}" ${display}>
+          <input type="checkbox" onclick="${updFunc}" id="show" class="title" ${checked}>
+          <label class="title"> ${id} </label><div class="spacer"></div>
+          <button class="btn" onclick="${updFunc}" id="sub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14,7L9,12L14,17V7Z"/></svg></button> 
+          <input class="spriteSel" id="ind" value=${itemParams.ind} type="number" oninput="${updFunc}" onclick="this.select()">
+          <button class="btn" id="add" onclick="${updFunc}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,17L15,12L10,7V17Z"/></svg></button>
+          <div class="spacer"></div>
+          <input id="colorCheck" class="title" onclick="${updFunc}" type="checkbox" ${colorChecked}>
+          <input type="color" id='color' value="${itemParams.color}" oninput="this.parentNode.querySelector('#colorCheck').checked=1, ${updFunc}">
+        </div>
+        ${
+            !(Object.keys(params.default).length > i + 2)
+                ? `
+        <div class="spacer"></div>
+        <div class="spriteSel" id="changeSize">
+          adult
+          <label class="switch" onclick="updateAll();" id="show">
+              <input type="checkbox" id="resizer" ${resizerChecked}>
+              <span  class="slider round"></span>
+            </label> 
+            child 
+        </div>
+        <div class="spacer"></div>`
+                : ""
+        }
+        `;
+    });
+    updateAll();
+}
+
+async function updateAll(mode = "loader", value) {
+    for (var i = 0, len = charData.menuItems.length; i < len; ++i) {
+        var id = charData.menuItems[i];
+
+        await updateSprite(mode, id, value);
+        await sleep(10);
+    }
+}
+
+async function updateSprite(mode, target, setVal) {
+	const visible = getQuery(target, "#show").checked;
+	const colorVisible = getQuery(target, "#colorCheck").checked;
+	const el = getQuery(target, "#ind");
+
+	const age = document.getElementById("resizer").checked ? "child" : "adult";
+	const max = (charData.foldersLength[target][age] || charData.foldersLength[target]) - 1;
+
+	const bodyType = +getQuery("body-type", "#ind").value;
+	let val = +el.value
+
+	if (!setVal) setVal = val;
+
+
+	const valueActions = { set: setVal, add: setVal + 1, sub: setVal - 1 };
+
+    if (mode == "sub") el.value = valueActions[mode]
+	else el.value = valueActions[mode] || setVal;
+
+	if (el.value < 1) el.value = max
+	if (el.value  > max) el.value = 1;
+    
+	switch (true) { // Modify Y depending on special cases:
+		case age == "adult" && [1, 9].indexOf(bodyType) !== -1 && target == "clothes":
+			charData.yModifier = -2;
+			break;
+		case age == "adult" && [1, 2, 9].indexOf(bodyType) !== -1 && target == "clothes-b":
+			charData.yModifier = -2;
+			break;
+		case age == "adult" && [2].indexOf(bodyType) !== -1 && target == "clothes":
+			charData.yModifier = -1;
+			break;
+		case age == "child" && !target.match(/body|clothes|bg-color/):
+			charData.yModifier = 2;
+			break;
+		case age == "child" && ["xtra-body"].indexOf(target) !== -1:
+			charData.yModifier = 1;
+			break;
+		default:
+			charData.yModifier = 0;
+	}
+
+	if (!visible) el.parentNode.style.color = "var(--c-gray05)";
+	else el.parentNode.style.color = "var(--c-green04)";
+
+	for (const n in charData.layers) {
+    const bmpImage = charData.layers[n].bmp.image;
+    if (bmpImage.className === "body-fix") {
+        const showCheckbox = getQuery("body-fix", "#show");
+        const clothesCheckbox = getQuery("clothes", "#show");
+        const bodyTypeCheckbox = getQuery("body-type", "#colorCheck");
+        const bodyTypeColor = getQuery("body-type", "#color");
+        
+        showCheckbox.checked = age === "adult" && bodyType === 1 ? clothesCheckbox.checked : false;
+        getQuery("body-fix", "#colorCheck").checked = bodyTypeCheckbox.checked;
+        getQuery("body-fix", "#color").value = bodyTypeColor.value;
+
+    }  if (bmpImage.className === target) {
+        charData.layers[n].bmp.alpha = visible;
+        const recolorVisible = getQuery(target, "#colorCheck").checked;
+        charData.layers[n].bmp2.alpha = recolorVisible * visible;
+        if (visible) displayUpdate(n, target, val, el, age);
+    }
+}
+
+
+}
+
+async function displayUpdate(n, target, val, el, age) {
+    const defaultVal = char[19][0];
+    defaultVal.data.x = 999999;
+
+    val = char[n][val] || char[n][age]?.[val] || defaultVal;
+
+    try {
+        charData.layers[n].bmp.image.src = val.src;
+    } catch (e) {
+        charData.layers[n].bmp.image.src = defaultVal.src;
+        val = defaultVal;
+    }
+    charData.layers[n].bmp.y = charData.layers[n].bmp2.y = val.data.y + charData.yModifier;
+    charData.layers[n].bmp.x = charData.layers[n].bmp2.x = val.data.x;
+    await recolor(n, document.getElementById(target));
+}
+async function recolor(id, colorInput) {
+	const colorSelector = colorInput.querySelector("#color");
+	const colorCheck = colorInput.querySelector("#colorCheck").checked;
+	const img = charData.layers[id].bmp.image;
+	const imgClass = img.getAttribute("class");
+	const bmp = charData.layers[id].bmp;
+	const bmp2 = charData.layers[id].bmp2;
+	const colors = await printColor(colorSelector);
+	const matrix = new createjs.ColorMatrix();
+
+	if (imgClass.includes("hair")) {
+		matrix
+			.adjustSaturation(-80 * colorCheck)
+			.adjustContrast(-25 * colorCheck);
+	} else if (imgClass.includes("head") || imgClass.includes("body")) {
+		matrix
+			.adjustSaturation(-50 * colorCheck)
+			.adjustContrast(-50 * colorCheck);
+	} else {
+		matrix
+			.adjustSaturation(-25 * colorCheck)
+			.adjustContrast(-10 * colorCheck);
+	}
+	bmp.filters[0].matrix = matrix;
+	bmp2.filters[0].redOffset = colors[0];
+	bmp2.filters[0].greenOffset = colors[1];
+	bmp2.filters[0].blueOffset = colors[2];
+	await sleep(20);
+	bmp.cache(0, 0, img.width, img.height);
+	bmp2.cache(0, 0, img.width, img.height);
+	await stage.update();
+
+}
+async function printColor(ev) {
+    const color = ev.value;
+    const r = parseInt(color.substr(1, 2), 16);
+    const g = parseInt(color.substr(3, 2), 16);
+    const b = parseInt(color.substr(5, 2), 16);
+    return [r, g, b];
+}
+
+function downloadChar() {
+    const ctx = stage.canvas.getContext("2d");
+    const dta = ctx.getImageData(0, 0, 72, 128).data;
+    const bb = UPNG.encode([dta], 72, 128);
+    const url = URL.createObjectURL(
+        new Blob([bb], {
+            type: "image/png"
+        })
+    );
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `EasyChar_${new Date().toISOString()}.png`;
+    link.click();
+}
+
+function getParams(id) {
+    const element = document.getElementById(id);
+
+    if (id === "changeSize") {
+        const checkbox = element.querySelector("input[type='checkbox']");
+        return { resizer: checkbox.checked };
+    } else {
+        const inputs = element.querySelectorAll("input");
+        return {
+            show: inputs[0].checked,
+            ind: inputs[1].value,
+            colorCheck: inputs[2].checked,
+            color: inputs[3].value
+        };
+    }
+}
+
+function setParams(id, params) {
+    const element = document.getElementById(id);
+
+    if (id === "changeSize") {
+        const checkbox = element.querySelector("input[type='checkbox']");
+        checkbox.checked = params.resizer;
+    } else {
+        const inputs = element.querySelectorAll("input");
+        inputs[0].checked = params.show;
+        inputs[1].value = params.ind;
+        inputs[2].checked = params.colorCheck;
+        inputs[3].value = params.color;
+    }
+}
+
+//--------- Dynamic Load Files
+
+function obj2arr(obj, name) {
+    let arr = [name];
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            var temp = +obj[key];
+            if (isNaN(temp)) temp = obj[key];
+            arr.push(temp);
+        }
+    }
+    return arr;
+}
+
+function arr2obj(arr) {
+    let obj = {};
+    let currentIndex = 0;
+    obj[arr[0]] = {
+        show: arr[currentIndex + 1],
+        ind: arr[currentIndex + 2],
+        colorCheck: arr[currentIndex + 3],
+        color: arr[currentIndex + 4]
+    };
+
+    return obj;
+}
+
+//obj2arr(params.default.head, "head");
+//arr2obj(obj2arr(params.default.head,"head"))
+
+//params.url = [];
+
+async function buildUrl() {
+    charData.length = Object.keys(charData.json.folders).length;
+    for (let i = charData.length; 1 <= i; i--) {
+        const id = i.toString().padStart(2, "0");
+        const type = charData.json.folders[id].type;
+        params.url.push(obj2arr(params.default[type], type));
+    }
+}
+
+//buildUrl();  
+//params.url;
