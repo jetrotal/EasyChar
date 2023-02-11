@@ -16,6 +16,8 @@
     --c-orange01: #ff5b32;
     --c-yellow01: #fcd000;
     --c-white01: #ffffff;
+    
+    --drawMenuSize: calc(128px / 4);
 }
 
 @font-face {
@@ -47,6 +49,8 @@
 .logoText:before,
 body {
     color: var(--c-green04);
+    margin:0;
+    padding:0;
 }
 
 .logoText:before {
@@ -101,7 +105,7 @@ body {
     background-image: var(--bgImg);
     background-size: 32px;
     height: 100vh;
-    overflow: hidden;
+    //overflow: hidden;
 }
 
 a {
@@ -137,7 +141,7 @@ small {
 #overlay #licenseText {
     display: block;
     width: 300px;
-    height: 200px;
+    height: 330px;
     background-color: var(--c-white01);
     color: var(--c-black01);
     padding: 5px;
@@ -152,6 +156,12 @@ small {
     padding: 10px;
     box-shadow: 0 0 0 1px var(--c-gray01);
     border-radius: 10px 10px 0 0;
+    
+}
+
+#header * {
+    z-index:210;
+    position:relative;
 }
 
 #mainArea #picArea {
@@ -169,7 +179,7 @@ small {
     border-radius: 0 0 10px 10px;
 }
 
-#mainArea {
+#mainArea, #infoContainer{
     display: flex;
     align-items: center;
     margin: auto;
@@ -178,14 +188,18 @@ small {
 
 #charContainer {
     margin: 0 60px 140px;
-    width: 72px;
-    height: 128px;
-    overflow: hidden;
+
+    font-size: 0;
     transform: scale(2);
     transform-origin: top center;
     image-rendering: pixelated;
     box-shadow: 0 0 0 0.5px var(--c-green03);
-    pointer-events: none;
+    //pointer-events: none;
+ 
+}
+
+#charOutput {
+     cursor: none; 
 }
 
 #disclaimer {
@@ -202,15 +216,21 @@ small {
     margin: 0 10px;
 }
 
-.spriteSel input[type="color"]:hover {
-    transform: translateX(10px) scalex(1.5);
+#changeSize{
+    width:43%;
 }
 
-.spriteSel input[type="color"] {
+.spriteSel input[type="color"]:hover {
+    transform: translateX(10px) scalex(1.5);
+    
+}
+
+.spriteSel #color {
     z-index: 99999;
     width: 30px;
     height: 30px;
     pointer-events: all;
+    display:none;
 }
 
 .spriteSel * {
@@ -222,7 +242,6 @@ small {
 .spriteSel button,
 .spriteSel input {
     align-items: center;
-    background: #fff;
     font-size: 1rem;
     font-weight: 400;
     padding: 0.2em;
@@ -285,8 +304,9 @@ input[type=number] {
     margin: auto 5px !important;
 }
 
+
 .spriteSel * {
-    background-color: transparent !important;
+    background-color: transparent
 }
 
 #assetsMenu {
@@ -347,11 +367,15 @@ input:checked+.slider:before {
 
 #exporter {
     display: flex;
-    height: 50px;
+    font-size:0;
 }
 
 #exporter .btn {
     width: 50px
+}
+
+#exporter svg {
+    max-height: 50px
 }
 
 #exporter .btn,
@@ -371,17 +395,25 @@ input:checked+.slider:before {
     background-color: var(--c-green02)
 }
 
-#downloader {
+#downloader, .btActive {
     background-color: var(--c-green02) !important;
 }
 
-#info .btn:hover,
+
+
+
+.btn:hover, .btActive:hover,
 #downloader:hover {
     background-color: var(--c-green03) !important;
+    cursor: pointer;
+     color: white !important;
+    
 }
 
-.btn:hover {
-    background-color: var(--c-green02) !important;
+.btActive:hover
+ {
+    background-color: var(--c-green01) !important;
+     cursor: unset !important;
 }
 
 .pls {
@@ -391,4 +423,175 @@ input:checked+.slider:before {
     width: 100%;
     text-align: center;
     margin-bottom: 30px;
+    z-index:-1
+}
+
+@import url("https://unpkg.com/grapick@0.1.13/dist/grapick.min.css") {}
+
+#recolor{
+  position:absolute; width: 0; height: 0; overflow: hidden;
+}
+
+.grp-handler {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 31px;
+    
+}
+
+
+.floaty {
+    position:relative;
+    transform:translateX(-170px);
+    z-index:100;
+    pointer-events:none;
+    margin: 0 -60px;
+}
+
+#colorCheck{
+    margin-left:40px;
+}
+
+.grp-handler-cp-c {
+    display: block!important
+}
+
+.grp-handler-cp-wrap {
+    border: 0
+}
+
+.grp-handler-cp-c * {
+    border-radius:  100%  0 100% 100%;
+    transform:rotate(-45deg)  ;
+    z-index:100;
+    position:relative;
+    box-shadow: 0 0 0 1px var(--c-gray02);
+}
+
+.grp-handler-cp-c *:hover {
+    
+    box-shadow: 0 0 0 2px white;
+}
+
+.grp-handler-drag {
+    background-color: rgba(0,0,0,.5)!important;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.5);
+    width: 5px;
+    height: 15px;
+}
+
+.grp-handler-drag:hover {
+ box-shadow: 0 0 0 2px white;
+    width:15px;
+    
+        transform-origin: right;
+}
+.grp-wrapper {
+    
+    transform:scaleY(-1) !important;
+}
+
+.grp-handler * {
+    margin: 0 !important;
+    margin-left: 0 !important;
+}
+
+
+.grp-handler-close {
+    //border-radius: 100% 100% 0 0;
+    bottom:-37px;
+    left:7px;
+    position:relative;
+    box-shadow: none;
+    background-color:none;
+    color: #fff;
+    font-size: inherit;
+    font-weight: 1;
+    line-height: inherit;
+    opacity:.2;
+    padding:4px;
+    
+}
+.grp-handler-close-c {
+    opacity:0;
+     height:0;
+}
+.grp-handler:hover .grp-handler-close-c {
+    opacity:inherit;
+   
+}
+
+
+
+.grp-handler-close:hover {
+    opacity:1;
+    color: #fff;
+    font-weight: 900;
+}
+
+.colorSlider {
+    width: 150px;
+    padding: 1.05rem 0;
+    margin-left:1rem;
+}
+
+#paintButtons {
+    flex-wrap: wrap;
+    position:absolute;
+    overflow:visible;
+    background-color: var(--c-gray02);
+    border-left: .01px solid black;
+    border-radius: 0  5px 5px 0
+}
+#drawPicker {
+    border-radius: 0 5px 0 0
+}
+
+#colorPickerBtn{
+    pointer-events:none; 
+    position:absolute; 
+    height:0; 
+    width:0; 
+    opacity:0; 
+    overflow:hidden;
+    transform: translateX(10px) translateY(-4px);
+    z-index:-1;
+}
+
+
+
+#clearDrawing{
+    border-radius: 0  0 5px 0
+}
+
+#paintButtons div {
+    display: flex;
+    min-height: var(--drawMenuSize);
+    overflow:hidden;
+}
+
+#paintButtons svg {
+    padding: -0 1px;
+
+
+}
+
+#cursors *{
+    width:3px;
+    height:3px;
+    image-rendering: pixelated;
+   
+    
+    
+}
+
+#cursors{
+     image-rendering: pixelated;
+    filter: invert(100%);
+    position:absolute;
+    z-index:300;
+    pointer-events:none;
+    mix-blend-mode: exclusion;
+    transform-origin:center center;
 }
