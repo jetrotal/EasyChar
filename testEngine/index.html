@@ -13,44 +13,55 @@
 
   <script type="module">
     import pdfLibUpng from 'https://cdn.skypack.dev/@pdf-lib/upng';
-    window.UPNG = pdfLibUpng
+    window.UPNG = pdfLibUpng;
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/EaselJS/1.0.2/easeljs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/upng-js/2.1.0/UPNG.min.js"></script>
   <script src='//cdn.rawgit.com/meltingice/psd.js/c7b786ea/dist/psd.min.js'></script>
+  <script src="https://unpkg.com/grapick@0.1.13/dist/grapick.min.js"></script>
   <script  src="./script.js" defer></script>
 
 </head>
 
 <link rel="stylesheet" class=cu href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.min.css">
 </link>
-<div id="overlay">
+
+<div id="overlay" style="overflow:hidden">
 
   <div>
-    <div id="mainArea">
+    <div id="infoContainer">
       <div class="spacer"></div>
            <div id="info">
-             <a class="logoChar"></a> <small>V1</small>
+             <a class="logoChar"></a> <small>V2</small>
              <div  id="disclaimer">
-<code>EasyRPG's Character Studio</code>
-<br><br>
+<code>EasyRPG's Character Studio</code> 
+<p style="font-size: 12px;">
 This app uses assets licensed under<br> the <a href="https://creativecommons.org/licenses/" target=_blank>Creative Commons</a> Licenses.
 <br><br>
-You are free to use them in any commercial or freeware game, as long as you include the following text in your game credits or README file:<br><br>
-               
-<textarea id="licenseText" disabled style="font-size: 12px;">Characters made with EasyChar. Assets Authors:
+You are free to use them in any commercial or freeware game, as long as you include the following text in your game credits or README file:<br>
+               </p>
+<textarea id="licenseText" disabled style="font-size: 12px;">Characters made with EasyChar. 
+https://jetrotal.github.io/easychar/
+
+Assets Authors:
   R.C.O [CC-BY]
   
   Jason Perry [CC0]
-  finalbossblues.itch.io 
+  https://finalbossblues.itch.io 
   
   Marina Navarro Travesset [CC-BY]
   https://muerteatartajo.blogspot.com
                
   Svetlana Kushnariova [CC-BY]
-  lana-chan@yandex.ru</textarea>
-               <br>
+  lana-chan@yandex.ru
+
+  Verdant_Jack [CC0]
+  https://tinyurl.com/VerdantJack 
+
+  Merchant Shade [CC0]
+  https://merchant-shade.itch.io</textarea>
+            
                <div id="reseter" onclick=" document.getElementById('overlay').style.display = 'none';" class="spacer btn" autofocus>OK!</div> 
 </div>
            </div>
@@ -60,19 +71,39 @@ You are free to use them in any commercial or freeware game, as long as you incl
   </div>
 </div>
 <div>
-  <div class="spacer"></div>
-  <div id="mainArea">
+  <div id="mainArea" style="display:none">
     <div class="spacer"></div>
-    <div>
-      <div id="header"><a class="logoChar"></a> <small>V1</small></div>
+    <div id="appContainer">
+      <div id="header"><a class="logoChar"></a> <small>V2</small></div>
       <div class="layout">
         <div id="picArea">
           Preview
-          <div class="spacer"></div>
+            <br><br>
           <div id="charContainer">
-            <canvas id="charOutput" width=72 height=128></canvas>
+             <div id="paintButtons" style="display:none">
+                 <div id="drawPicker" onclick="updateDrawPicker()" class="spacer btn">
+<input type="color" id="colorPickerBtn" oninput="brushColor = this.value, document.getElementById('pickerRect').style.fill= brushColor "></input>
+        <svg viewBox="0 0 24 24">
+    <path fill="currentColor" d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" />
+<rect stroke="white" width="10" height="10" x="10" y="15" id='pickerRect' />      
+</svg>   
+    </div>
+    <div id="pencil" onclick="setTool('pencil',this)" class="spacer btn btActive"><svg viewBox="0 0 24 24">
+    <path fill="currentColor" d="M16.84,2.73C16.45,2.73 16.07,2.88 15.77,3.17L13.65,5.29L18.95,10.6L21.07,8.5C21.67,7.89 21.67,6.94 21.07,6.36L17.9,3.17C17.6,2.88 17.22,2.73 16.84,2.73M12.94,6L4.84,14.11L7.4,14.39L7.58,16.68L9.86,16.85L10.15,19.41L18.25,11.3M4.25,15.04L2.5,21.73L9.2,19.94L8.96,17.78L6.65,17.61L6.47,15.29" />
+</svg></div>
+    
+    <div id="eraser" onclick="setTool('eraser',this)" class="spacer btn">
+        <svg viewBox="0 0 24 24">
+    <path fill="currentColor" d="M15.14,3C14.63,3 14.12,3.2 13.73,3.59L2.59,14.73C1.81,15.5 1.81,16.77 2.59,17.56L5.03,20H12.69L21.41,11.27C22.2,10.5 22.2,9.23 21.41,8.44L16.56,3.59C16.17,3.2 15.65,3 15.14,3M17,18L15,20H22V18" />
+</svg>
+    </div>
+    <div id="clearDrawing"  onclick="clearCanvas()" class="spacer btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z"/></svg>
+    </div>
+</div>
+              <canvas id="charOutput" width=72 height=128></canvas>
           </div>
-          <div class="spacer"></div>
+         
           <div id="exporter">
             <div class="spacer"></div>
             <div id="downloader" onclick="downloadChar()" class="spacer btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg></div>
@@ -86,13 +117,30 @@ You are free to use them in any commercial or freeware game, as long as you incl
         </div>
         <div id="assetsMenu"><br></div>
         <div class="spacer"></div>
+          <div id="assetsMenu" class="floaty">Color Palette</div>
+        <div class="spacer"></div>
       </div>
     </div>
     <div class="spacer"></div>
   </div>
 </div>
+
+<svg style="width:0;height:0;position:absolute; pointer-events:none">
+  <filter id="newColor" filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values=".33 .33 .33 0 0
+        .33 .33 .33 0 0
+        .33 .33 .33 0 0
+        0 0 0 1 0" in="SourceGraphic" result="cm"/><feComponentTransfer in="cm" result="ct">
+      <feFuncR id="reR" type="table" tableValues=".1 .1 .1"/>
+      <feFuncG id="reG" type="table" tableValues=".5 .5 .5"/>
+      <feFuncB id="reB" type="table" tableValues="1 1 1"/>
+    </feComponentTransfer>
+    <feBlend mode="normal" in="ct" in2="SourceGraphic" result="blend"/>
+  </filter>
+</svg>
+
 <!-- partial -->
-  <div id="support">
+  <div id="support" style="overflow:hidden">
     <div class="pls">Your donation to this app will help us bring on more talented artists and expand our collection of assets.</div>
 
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
@@ -113,5 +161,13 @@ kofiWidgetOverlay.draw('jetrotal', {
     </div>
 
 
+<div id="cursors">
+<svg id="eraserCursor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 3">
+  <path d="M0 0h3v3H0Zm1 2h1V1H1Z"/>
+</svg>
+<svg id= "pencilCursor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 3">
+  <path d="M2 2v1H1V2H0V1h1V0h1v1h1v1ZM1 2h1V1H1Z"/>
+</svg>
+</div>
 </body>
 </html>
