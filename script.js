@@ -243,7 +243,7 @@ async function processLayers(layers) {
 function processRules(layers) {
     window.rules = {};
     for (let layer of layers)
-	if (layer.name == "credits") alert('achei'), document.getElementById('licenseText').value = layer.get('typeTool').export().value
+	if (layer.name == "credits") console.log(document.getElementById('licenseText').value, layer.get('typeTool').export().value), document.getElementById('licenseText').value = layer.get('typeTool').export().value
         else Object.assign(window.rules, JSON.parse(layer.name));
     
 }
