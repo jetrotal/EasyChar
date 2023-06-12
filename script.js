@@ -115,7 +115,7 @@ params.default = {
         colorCheck: false
     },
     "changeSize": {
-        resizer: false
+        variantsMenu: false
     }
 };
 
@@ -365,11 +365,11 @@ function buildMenu() {
         ? params.default[id] 
         : params.default[0];
         const display = rules.noMenu.indexOf(id) >-1 ? "style='display:none'" : "";
-        const resizerDisplay = rules.noMenu.indexOf('resizer') >-1 ? "style='display:none'" : "";
+        const variantsMenuDisplay = rules.noMenu.indexOf('variantsMenu') >-1 ? "style='display:none'" : "";
 
         const checked = itemParams.show ? "checked" : "";
         const colorChecked = itemParams.colorCheck ? "checked" : "";
-        const resizerChecked = params.default.changeSize.resizer ? "checked" : "";
+        const variantsMenuChecked = params.default.changeSize.variantsMenu ? "checked" : "";
 
         assetsMenu.innerHTML += `
         <div class="spriteSel" id="${id}" ${display}>
@@ -386,10 +386,10 @@ function buildMenu() {
             !(Object.values(charData.menuItems).length > i + 1)
                 ? `
         <div class="spacer"></div>
-        <div class="spriteSel" id="changeSize" ${resizerDisplay}>
+        <div class="spriteSel" id="changeSize" ${variantsMenuDisplay}>
           ${rules.variants[1]}
           <label class="switch" onclick="updateAll();" id="show">
-              <input type="checkbox" id="resizer" ${resizerChecked}>
+              <input type="checkbox" id="variantsMenu" ${variantsMenuChecked}>
               <span  class="slider round"></span>
             </label> 
             ${rules.variants[0]} 
@@ -420,7 +420,7 @@ async function updateSprite(mode, target, setVal) {
 	const colorVisible = getQuery(target, "#colorCheck").checked;
 	const el = getQuery(target, "#ind");
 
-	const age = document.getElementById("resizer").checked ? rules.variants[0] : rules.variants[1];
+	const age = document.getElementById("variantsMenu").checked ? rules.variants[0] : rules.variants[1];
 	const maxInput = (charData.foldersLength[target][age] || charData.foldersLength[target]) - 1;
 
 
@@ -899,7 +899,7 @@ function getParams(id) {
 
     if (id === "changeSize") {
         const checkbox = element.querySelector("input[type='checkbox']");
-        return { resizer: checkbox.checked };
+        return { variantsMenu: checkbox.checked };
     } else {
         const inputs = element.querySelectorAll("input");
         return {
@@ -916,7 +916,7 @@ function setParams(id, params) {
 
     if (id === "changeSize") {
         const checkbox = element.querySelector("input[type='checkbox']");
-        checkbox.checked = params.resizer;
+        checkbox.checked = params.variantsMenu;
     } else {
         const inputs = element.querySelectorAll("input");
         inputs[0].checked = params.show;
