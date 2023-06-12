@@ -19,10 +19,10 @@ let colorObjs = [{r: 0.1, g: 0.1, b: 0.1},
 const url = new URL(window.location.href);
 
 // Extract the file value from the URL
-const psdFile = getFileValueFromURL(url);
+const psdURL = getFileValueFromURL(url);
 
 let PSD = require("psd"),
-    psdFile = `https://jetrotal.github.io/EasyChar/${psdFile}.psd?${seed}`;
+    psdFile = `https://jetrotal.github.io/EasyChar/${psdURL}.psd?${seed}`;
 
 let charData = {
     listOfTypes: {},
