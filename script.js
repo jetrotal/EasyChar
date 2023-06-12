@@ -13,7 +13,7 @@ window.functions = {};
 
 window.getFileValueFromURL = function(url) {
   const urlParams = new URLSearchParams(url.search);
-  const fileValue = urlParams.get('file');
+  let fileValue = urlParams.get('file');
   if (!fileValue) fileValue = "spriteData";
   return fileValue;
 }
