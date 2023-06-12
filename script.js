@@ -11,6 +11,13 @@ const tempImg = new Image();
 
 window.functions = {};
 
+window.getFileValueFromURL = function(url) {
+  const urlParams = new URLSearchParams(url.search);
+  const fileValue = urlParams.get('file');
+  if (!fileValue) fileValue = "spriteData";
+  return fileValue;
+}
+
 const seed = Math.floor(Math.random() * 1000) + 1;
 let colorObjs = [{r: 0.1, g: 0.1, b: 0.1},
                  {r: 0.8, g: 0, b: 0},
@@ -125,13 +132,6 @@ try{
                 .slice(-1 * (n || 2)) + this
         );
     };
-
-window.getFileValueFromURL = function(url) {
-  const urlParams = new URLSearchParams(url.search);
-  const fileValue = urlParams.get('file');
-  if (!fileValue) fileValue = "spriteData";
-  return fileValue;
-}
 
     window.sleep = function(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
